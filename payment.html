@@ -278,25 +278,17 @@
 
   </div>
 
+
 <script>
 const WEBHOOK_URL = "https://discord.com/api/webhooks/1460362076278096029/mzXDMIvtuVYlKOVQzTZo3SN_tmFKCAQmji0ueWYB5Qf5vc9e3nX3oqALmDKfQsC2HRMN";
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbxYe1izOcsP_N_-ktMmYLyPmaqTdxlq8Dum8vtuPMOGbsc4xxCtRrH3-qEik3kOmm9a/exec";
-
-/* ===== เลือกแพ็กเกจ ===== */
-document.querySelectorAll(".plan-card").forEach(card => {
-  card.addEventListener("click", () => {
-    document.querySelectorAll(".plan-card").forEach(c => c.classList.remove("active"));
-    card.classList.add("active");
-    document.getElementById("plan").value = card.dataset.plan;
-  });
-});
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyMIXbjFYGdqaVVbBvrCqWXr_hRUV-kqtg1DOmfo2gZxZhJ8DH0Z7BsVbXsO1UV8ZbKiw/exec";
 
 /* ===== ส่งข้อมูล ===== */
-async function sendToGoogleSheet() {
+function sendToGoogleSheet() {
   const user = document.getElementById("username").value.trim();
   const contact = document.getElementById("contact").value.trim();
-  const slip = document.getElementById("slip").files[0];
   const plan = document.getElementById("plan").value;
+  const slip = document.getElementById("slip").files[0];
 
   if (!user || !contact || !plan || !slip) {
     alert("กรุณากรอกข้อมูลและแนบสลิปให้ครบ");
@@ -305,48 +297,41 @@ async function sendToGoogleSheet() {
 
   const id = Date.now().toString();
 
-  /* ===== 1. ส่ง Google Sheet (ก่อน) ===== */
-  try {
-    await fetch(SHEET_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id,
-        username: user,
-        line: contact,
-        plan
-      })
-    });
-  } catch (e) {
-    alert("ส่งข้อมูลไปยังระบบไม่สำเร็จ (Google Sheet)");
-    return;
-  }
+  /* ===== 1. ส่ง Google Sheet (ไม่รอ response) ===== */
+  fetch(SHEET_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id,
+      username: user,
+      line: contact,
+      plan
+    })
+  });
 
-  /* ===== 2. ส่ง Discord (ไม่ให้พังระบบหลัก) ===== */
-  try {
-    const discordData = new FormData();
-    discordData.append(
-      "content",
+  /* ===== 2. ส่ง Discord (ไม่รอ response) ===== */
+  const discordData = new FormData();
+  discordData.append(
+    "content",
 `📥 สมัครสมาชิก The Scene 89
 👤 Username: ${user}
 📞 LINE ID: ${contact}
 ⏳ ระยะเวลา: ${plan}`
-    );
-    discordData.append("file", slip);
+  );
+  discordData.append("file", slip);
 
-    fetch(WEBHOOK_URL, {
-      method: "POST",
-      body: discordData
-    });
-  } catch (e) {
-    console.warn("Discord ส่งไม่สำเร็จ แต่ไม่กระทบระบบหลัก");
-  }
+  fetch(WEBHOOK_URL, {
+    method: "POST",
+    body: discordData
+  });
 
-  /* ===== 3. Success ===== */
+  /* ===== 3. Success UI ===== */
   document.getElementById("successPopup").style.display = "flex";
 }
+
 
 
 /* ===== แสดงชื่อไฟล์ ===== */
