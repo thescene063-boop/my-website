@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>สมัครสมาชิก | The Scene 89</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .pay-wrapper {
+      max-width: 420px;
+      margin: 40px auto;
+      padding: 30px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(229,9,20,0.2);
+    }
+
+    .pay-wrapper h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .pay-wrapper label {
+      font-size: 14px;
+      display: block;
+      margin: 14px 0 6px;
+    }
+
+    .pay-wrapper input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-family: 'Prompt', sans-serif;
+    }
+
+    .qr {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+   .qr img {
+  width: 240px; /* 👈 ขยายตรงนี้ */
+  border-radius: 12px;
+}
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-size: 15px;
+      color: #fff;
+      background: linear-gradient(135deg, #e50914, #ff4b2b);
+      cursor: pointer;
+    }
+    .plan-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.plan-card {
+  padding: 14px 8px;
+  text-align: center;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: .25s;
+  border: 2px solid transparent;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.plan-card strong {
+  font-size: 15px;
+}
+
+.plan-card span {
+  font-size: 12px;
+  opacity: .8;
+  line-height: 1.2;
+}
+
+.plan-card.active {
+  border-color: #e50914;
+  background: rgba(229,9,20,0.15);
+}
+
+/* 📱 จอเล็ก ให้เรียง 1 คอลัมน์ */
+@media (max-width: 480px) {
+  .plan-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+.file-upload {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.file-upload input {
+  display: none; /* ซ่อนปุ่มเดิม */
+}
+
+.file-upload span {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 2px dashed rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: .25s;
+}
+
+.file-upload span:hover {
+  background: rgba(229,9,20,0.15);
+  border-color: #e50914;
+}
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background: #1c1c1c;
+  padding: 30px 26px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(229,9,20,.4);
+  animation: popupScale .35s ease;
+}
+
+.popup-box h2 {
+  margin: 10px 0 6px;
+}
+
+.popup-box p {
+  font-size: 14px;
+  opacity: .85;
+}
+
+.popup-icon {
+  font-size: 42px;
+}
+
+@keyframes popupScale {
+  from { transform: scale(.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.payment-note {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 15px;
+  color: #ffffff;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.payment-note span {
+  color: #f00f0f; /* เน้น 30 นาที */
+  font-weight: 600;
+}
+
+.payment-note .contact {
+  color: #eeff00;
+  font-weight: 500;
+}
+
+
+  </style>
+  
+</head>
+
+<body>
+ <div id="successPopup" class="popup-overlay">
+  <div class="popup-box">
+    <div class="popup-icon">✅</div>
+    <h2>ส่งข้อมูลสำเร็จ</h2>
+    <p>ระบบได้รับข้อมูลแล้ว<br>แอดมินจะตรวจสอบให้เร็วที่สุด</p>
+    <p>หลังชำระเงิน กรุณารอ 30 นาทีเพื่อตรวจสอบการเข้ากลุ่มแอคล็อก <br>หากเกินเวลาที่กำหนด โปรดติดต่อแอดมิน</p> 
+    <a class="link" href="https://lin.ee/XXXX" target="_blank">
+      <i class="fa-brands fa-line"></i>
+      LINE ติดต่อปัญหา
+    </a>
+  </div>
+</div>
+  <!-- Navbar -->
+  <div id="navbar"></div>
+
+  <div class="pay-wrapper">
+    <h1>สมัครสมาชิก</h1>
+
+    <label>ชื่อผู้ใช้ X (Username)</label>
+    <input type="text" id="username" placeholder="ตัวอย่าง @THESCENE89 ">
+
+    <label>LINE ID</label>
+    <input type="text" id="contact" placeholder="สำหรับติดต่อกลับ(มีปัญหา)">
+
+    
+    <label>เลือกระยะเวลาสมัคร</label>
+
+<div class="plan-group">
+  <div class="plan-card" data-plan="1 เดือน (สมาชิกใหม่)">
+    <strong>1 เดือน 21 ฿</strong>
+    <span>(สมาชิกใหม่)</span>
+  </div>
+
+  <div class="plan-card" data-plan="1 เดือน (ต่ออายุ)">
+    <strong>1 เดือน 21 ฿</strong>
+    <span>(ต่ออายุจากเดิม)</span>
+  </div>
+
+  <div class="plan-card" data-plan="1 เดือน (ต่อใหม่)">
+    <strong>1 เดือน 21 ฿</strong>
+    <span>(หลุดสมาชิก)</span>
+  </div>
+</div>
+<input type="hidden" id="plan">
+
+
+
+
+ 
+
+
+    <div class="qr">
+      <p>สแกนเพื่อชำระเงิน</p>
+      <img src="images/qrcode.jpg" alt="QR Payment">
+    </div>
+
+    
+
+    <label>แนบสลิปการโอน</label>
+
+<label class="file-upload">
+  <input type="file" id="slip" accept="image/*">
+  <span>📎 เลือกรูปสลิป</span>
+</label>
+
+<small id="fileName" style="opacity:.7; display:block; margin-top:6px;">
+  ยังไม่ได้เลือกไฟล์
+</small>
+
+
+    <button class="submit-btn" onclick="sendToDiscord()">
+      ส่งข้อมูลสมัคร
+    </button>
+   
+<p class="payment-note">
+  หลังชำระเงิน กรุณารอประมาณ <span>30 นาที</span>  
+  เพื่อตรวจสอบการเข้ากลุ่มแอคล็อก  
+  <br>
+  หากเกินเวลาที่กำหนด โปรดติดต่อ 
+  <a href="https://line.me/ti/p/XXXXXXXX" 
+     target="_blank"
+     class="contact">
+     แอดมิน
+  </a>
+</p>
+
+
+  </div>
+
+ <script>
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1460362076278096029/mzXDMIvtuVYlKOVQzTZo3SN_tmFKCAQmji0ueWYB5Qf5vc9e3nX3oqALmDKfQsC2HRMN";
+  document.querySelectorAll(".plan-card").forEach(card => {
+  card.addEventListener("click", () => {
+    document
+      .querySelectorAll(".plan-card")
+      .forEach(c => c.classList.remove("active"));
+
+    card.classList.add("active");
+    document.getElementById("plan").value = card.dataset.plan;
+  });
+});
+  async function sendToDiscord() {
+    const user = document.getElementById("username").value.trim();
+    const contact = document.getElementById("contact").value.trim();
+    const slip = document.getElementById("slip").files[0];
+    const plan = document.getElementById("plan").value;
+
+   if (!user || !contact || !plan || !slip) {
+  alert("กรุณากรอกข้อมูลและแนบสลิปให้ครบ");
+  return;
+}
+
+    const formData = new FormData();
+
+    formData.append(
+  "content",
+  `📥 สมัครสมาชิก The Scene 89
+👤 Username: ${user}
+📞 LINE ID: ${contact}
+⏳ ระยะเวลา: ${plan}`
+);
+
+
+    formData.append("file", slip);
+
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        body: formData
+      });
+
+
+
+
+
+// เก็บ id ไว้เช็กสถานะทีหลัง
+const id = Date.now().toString();
+localStorage.setItem("payment_id", id);
+
+
+      document.getElementById("successPopup").style.display = "flex";
+
+setTimeout(() => {
+  document.getElementById("successPopup").style.display = "none";
+}, 80000);
+    } catch (err) {
+      alert("เกิดข้อผิดพลาด กรุณาลองใหม่");
+    }
+  }
+
+ 
+
+</script>
+<script>
+  document.getElementById("slip").addEventListener("change", function () {
+    const fileName = this.files[0]?.name || "ยังไม่ได้เลือกไฟล์";
+    document.getElementById("fileName").innerText = fileName;
+  });
+</script>
+
+  
+
+  <script src="js/navbar.js"></script>
+</body>
+</html>

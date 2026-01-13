@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Scene 89</title>
+
+  <meta name="description" content="เว็บรวมหนัง | The Scene 89">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+  <style>
+    
+
+
+    /* ===== Main Card ===== */
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 35px 25px;
+      margin: 0 auto;
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border-radius: 22px;
+      box-shadow: 0 0 40px rgba(229,9,20,0.15);
+      position: relative;
+      z-index: 1;
+       margin-top: 40px; /* 👈 เพิ่มบรรทัดนี้ */
+    }
+
+    .container {
+  animation: floatIndexCard 20s ease-in-out infinite;
+}
+
+
+    .avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  overflow: hidden;
+
+  /* glow แดงแบบเดิม */
+  box-shadow: 0 0 10px rgba(255, 0, 13, 0.6);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+    .sub {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+
+    .link {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  text-decoration: none;
+  color: #fff;
+
+  background: linear-gradient(135deg, #e50914, #ff4b2b);
+  padding: 15px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,0.35),
+    transparent 70%
+  );
+  transform: translateX(-100%);
+}
+
+.link:active::after {
+  animation: shine 0.4s ease;
+}
+
+@keyframes shine {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+
+/* hover = ลอย + สว่าง */
+.link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(229,9,20,0.45);
+  filter: brightness(1.05);
+}
+
+/* active = กดแล้วจม */
+.link:active {
+  transform: scale(0.97);
+  box-shadow: 0 6px 14px rgba(229,9,20,0.35);
+}
+
+
+    .link:hover {
+      transform: scale(1.05);
+    }
+
+    .footer {
+      margin-top: 28px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+    @keyframes floatIndexCard {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ Navbar กลาง (เหมือนทุกหน้า) -->
+  <div id="navbar"></div>
+
+  <!-- ===== เนื้อหา หน้าแรก ===== -->
+  <div class="container">
+    <div class="avatar">
+  <img src="images/profile.jpg" alt="Profile">
+</div>
+
+    <h1>The Scene 89</h1>
+
+    <h2 style="margin-top:20px;">ช่องทางการติดต่อ</h2>
+    <div class="sub">
+      👇 มีข้อสงสัย / ติดต่อปัญหา / ทักมาได้เลย 👇
+    </div>
+
+    <a class="link" href="https://x.com/username" target="_blank">
+      <i class="fa-brands fa-x-twitter"></i>
+      Twitter (X)
+    </a>
+
+    <a class="link" href="movies.html">
+      🎬 ดูหนังทั้งหมด
+    </a>
+
+    <a class="link" href="https://lin.ee/XXXX" target="_blank">
+      <i class="fa-brands fa-line"></i>
+      LINE ติดต่อปัญหา
+    </a>
+
+    <a class="link" href="https://line.me/ti/g2/XXXX" target="_blank">
+      <i class="fa-solid fa-comments"></i>
+      LINE กลุ่มพูดคุย
+    </a>
+
+  
+
+    <a class="link" href="https://www.tiktok.com/@username" target="_blank">
+      <i class="fa-brands fa-tiktok"></i>
+      TikTok
+    </a>
+
+  
+
+   
+
+    <div class="footer">
+      © 2026 The Scene89 • Mawit
+    </div>
+  </div>
+
+  <!-- โหลด Navbar -->
+  <script src="js/navbar.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | The Scene 89</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    body {
+      padding-top: 80px;
+      font-family: 'Prompt', sans-serif;
+      color: #fff;
+    }
+
+    .admin-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .movie-card {
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .movie-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    .movie-title {
+      padding: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #ff1e1e;
+      border: none;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<script>
+  const pass = prompt("กรอกรหัสผ่าน Admin");
+  if (pass !== "1234") {
+    alert("รหัสผ่านไม่ถูกต้อง");
+    location.href = "index.html";
+  }
+</script>
+
+<body>
+
+  <div id="navbar"></div>
+
+  <h1 style="text-align:center;margin-bottom:30px;">Admin : จัดการหนัง</h1>
+
+  <div class="admin-grid" id="adminGrid"></div>
+
+  <div style="max-width:600px;margin:0 auto 40px;">
+  <h2>➕ เพิ่มหนังใหม่</h2>
+
+  <input id="titleInput" placeholder="ชื่อหนัง"
+    style="width:100%;padding:10px;margin-bottom:10px;">
+
+  <input id="posterInput" placeholder="ลิงก์รูป (Discord CDN)"
+    style="width:100%;padding:10px;margin-bottom:10px;">
+
+  <input id="linkInput" placeholder="ลิงก์สมัคร (LINE)"
+    style="width:100%;padding:10px;margin-bottom:10px;">
+
+  <button onclick="addMovie()"
+    style="padding:10px 20px;border-radius:12px;background:#e50914;color:#fff;border:none;cursor:pointer;">
+    เพิ่มหนัง
+  </button>
+</div>
+
+
+  <script type="module">
+    import { db } from "./js/firebase.js";
+    import {
+      collection,
+      getDocs,
+      deleteDoc,
+      doc
+    } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+    const grid = document.getElementById("adminGrid");
+
+    const snap = await getDocs(collection(db, "movies"));
+
+    snap.forEach(d => {
+      const m = d.data();
+      const id = d.id;
+
+      grid.innerHTML += `
+        <div class="movie-card">
+          <button class="delete-btn" onclick="deleteMovie('${id}')">ลบ</button>
+          <img src="${m.poster}">
+          <div class="movie-title">${m.title}</div>
+        </div>
+      `;
+    });
+
+    window.deleteMovie = async (id) => {
+      if (!confirm("แน่ใจว่าจะลบหนังเรื่องนี้?")) return;
+      await deleteDoc(doc(db, "movies", id));
+      location.reload();
+    };
+    import { addDoc } from
+"https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+window.addMovie = async () => {
+  const title = document.getElementById("titleInput").value.trim();
+  const poster = document.getElementById("posterInput").value.trim();
+  const link = document.getElementById("linkInput").value.trim();
+
+  if (!title || !poster || !link) {
+    alert("กรอกข้อมูลให้ครบ");
+    return;
+  }
+
+  await addDoc(collection(db, "movies"), {
+    title,
+    poster,
+    link
+  });
+
+  alert("เพิ่มหนังเรียบร้อย");
+  location.reload();
+};
+
+  </script>
+  
+
+  <script src="js/navbar.js"></script>
+</body>
+</html>
