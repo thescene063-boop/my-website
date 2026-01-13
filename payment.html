@@ -283,7 +283,7 @@
 
 <script>
 const WEBHOOK_URL = "https://discord.com/api/webhooks/1460362076278096029/mzXDMIvtuVYlKOVQzTZo3SN_tmFKCAQmji0ueWYB5Qf5vc9e3nX3oqALmDKfQsC2HRMN";
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbyMIXbjFYGdqaVVbBvrCqWXr_hRUV-kqtg1DOmfo2gZxZhJ8DH0Z7BsVbXsO1UV8ZbKiw/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycby2jHH4TJWWRzJtgm1YJxethG_QpyZI-3cfuiQ-ANsusIJHNFzPtcFgwE0l_lWpl-oNlA/exec";
 
 /* ===== ส่งข้อมูล ===== */
 function sendToGoogleSheet() {
@@ -299,20 +299,18 @@ function sendToGoogleSheet() {
 
   const id = Date.now().toString();
 
-  /* ===== 1. ส่ง Google Sheet (ไม่รอ response) ===== */
-  fetch(SHEET_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      id,
-      username: user,
-      line: contact,
-      plan
-    })
-  });
+/* ===== 1. ส่ง Google Sheet (FormData) ===== */
+const formData = new FormData();
+formData.append("id", id);
+formData.append("username", user);
+formData.append("line", contact);
+formData.append("plan", plan);
+
+fetch(SHEET_URL, {
+  method: "POST",
+  body: formData
+});
+
 
   /* ===== 2. ส่ง Discord (ไม่รอ response) ===== */
   const discordData = new FormData();
@@ -367,5 +365,6 @@ document.querySelectorAll(".plan-card").forEach(card => {
   <script src="js/navbar.js"></script>
 </body>
 </html>
+
 
 
