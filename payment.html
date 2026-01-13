@@ -278,6 +278,22 @@
 
   </div>
 
+<script>
+/* ===== เลือกแพ็กเกจ ===== */
+document.querySelectorAll(".plan-card").forEach(card => {
+  card.addEventListener("click", () => {
+    // เอา active ออกทุกอัน
+    document.querySelectorAll(".plan-card")
+      .forEach(c => c.classList.remove("active"));
+
+    // ใส่ active ให้ตัวที่กด
+    card.classList.add("active");
+
+    // เซ็ตค่า plan
+    document.getElementById("plan").value = card.dataset.plan;
+  });
+});
+</script>
 
 <script>
 const WEBHOOK_URL = "https://discord.com/api/webhooks/1460362076278096029/mzXDMIvtuVYlKOVQzTZo3SN_tmFKCAQmji0ueWYB5Qf5vc9e3nX3oqALmDKfQsC2HRMN";
@@ -349,3 +365,4 @@ document.getElementById("slip").addEventListener("change", function () {
   <script src="js/navbar.js"></script>
 </body>
 </html>
+
