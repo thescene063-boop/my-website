@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>หนังทั้งหมด | The Scene 89</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .page-header {
+      padding: 20px 40px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .movie-search {
+      max-width: 360px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      font-family: 'Prompt', sans-serif;
+    }
+
+    .movie-grid {
+      padding: 0 40px 60px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 22px;
+    }
+
+    .movie-card {
+      background: rgba(255,255,255,0.06);
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      transition: 0.35s;
+    }
+
+    .movie-card:hover {
+      transform: translateY(-10px) scale(1.04);
+    }
+
+    .movie-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    .movie-title {
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .join-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: linear-gradient(135deg, #e50914, #ff4b2b);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      opacity: 0;
+      transition: .3s;
+    }
+
+    .movie-card:hover .join-badge {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <div id="navbar"></div>
+
+  <!-- Header -->
+  <div class="page-header">
+    <h1>ค้นหาหนังทั้งหมด</h1>
+    <input
+      id="searchInput"
+      class="movie-search"
+      placeholder="ค้นหาชื่อหนัง..."
+      onkeyup="searchMovie()"
+    >
+  </div>
+
+  <!-- Movie Grid -->
+  <div class="movie-grid" id="movieGrid"></div>
+
+  <!-- 🔥 Firebase Load (รอบเดียวพอ) -->
+ <script type="module">
+  import { db } from "./js/firebase.js";
+  import {
+    collection,
+    getDocs
+  } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+  const movieGrid = document.querySelector(".movie-grid");
+
+  const snap = await getDocs(collection(db, "movies"));
+
+  if (snap.empty) {
+    movieGrid.innerHTML = "<p>ยังไม่มีหนังในระบบ</p>";
+  }
+
+  snap.forEach(doc => {
+    const m = doc.data();
+    console.log(m);
+    movieGrid.innerHTML += `
+      <a href="${m.link}" target="_blank" class="movie-link" data-title="${m.title}">
+        <div class="movie-card">
+          <img src="${m.poster}" alt="${m.title}">
+          <div class="join-badge">สมัครเพื่อรับชม</div>
+          <div class="movie-title">${m.title}</div>
+        </div>
+      </a>
+    `;
+  });
+</script>
+
+
+  <!-- 🔍 Search -->
+  <script>
+    function searchMovie() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      document.querySelectorAll(".movie-link").forEach(m => {
+        m.style.display = m.dataset.title.toLowerCase().includes(input) ? "" : "none";
+      });
+    }
+  </script>
+
+  <script src="js/navbar.js"></script>
+</body>
+</html>

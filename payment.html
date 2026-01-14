@@ -7,7 +7,7 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     .pay-wrapper {
       max-width: 420px;
@@ -58,6 +58,49 @@
       color: #fff;
       background: linear-gradient(135deg, #e50914, #ff4b2b);
       cursor: pointer;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 25px;
+      padding: 16px;
+      border-radius: 16px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #e50914 0%, #ff4b2b 100%);
+      cursor: pointer;
+      font-family: 'Prompt', sans-serif;
+      letter-spacing: 0.5px;
+      box-shadow: 0 6px 20px rgba(229,9,20,0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .submit-btn:hover::before {
+      left: 100%;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(229,9,20,0.6);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
     }
     .plan-group {
   display: grid;
@@ -147,13 +190,43 @@
   animation: popupScale .35s ease;
 }
 
+/* ปรับหัวข้อให้ใหญ่และหนาขึ้น */
 .popup-box h2 {
-  margin: 10px 0 6px;
+  font-size: 26px; /* ขยายจากเดิม */
+  font-weight: 600;
+  margin: 15px 0 10px;
+  color: #ffffff;
 }
 
+/* ปรับเนื้อหาทั่วไปให้อ่านง่าย */
 .popup-box p {
-  font-size: 14px;
-  opacity: .85;
+  font-size: 16px; /* ขยายขนาดตัวหนังสือ */
+  line-height: 1.6; /* เพิ่มช่องว่างระหว่างบรรทัด */
+  color: #e0e0e0; /* ใช้สีขาวหม่นนิดๆ แต่อย่าจางมาก */
+  margin-bottom: 15px;
+}
+
+/* ✨ สร้างกรอบข้อความเตือน (ส่วนรอ 30 นาที) */
+.warning-box {
+  background: rgba(255, 255, 255, 0.08); /* พื้นหลังจางๆ รองรับ */
+  border: 1px solid rgba(255, 215, 0, 0.3); /* ขอบสีทองจางๆ */
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.warning-box p {
+  margin: 0;
+  color: #ffeb3b; /* สีเหลืองทอง อ่านง่ายบนพื้นดำ */
+  font-size: 15px;
+}
+
+.warning-box strong {
+  color: #fff;
+  font-weight: 600;
+  font-size: 17px; /* เน้นตัวเลขหรือคำสำคัญให้ใหญ่ */
+  text-decoration: underline;
 }
 
 .popup-icon {
@@ -183,32 +256,339 @@
   font-weight: 500;
 }
 
+/* เพิ่มใน <style> */
+.error-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  animation: slideIn 0.3s ease;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
 
+.error-box {
+  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(255,68,68,0.4);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.error-icon {
+  font-size: 24px;
+}
+
+.error-box p {
+  margin: 0;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
+/* เพิ่มใน <style> qr */
+.bank-details {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* แก้ไขใน .bank-details p */
+.bank-details p {
+  margin: 6px 0;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 400;
+  text-align: center; /* ⬅️ เปลี่ยนจาก left เป็น center */
+}
+
+.bank-details p:first-child {
+  color: #06c755;
+  font-weight: 500;
+}
+
+.bank-details p:last-child {
+  color: #ffeb3b;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+/* ปุ่มเช็คสถานะ (เล็กกว่า submit ปกติ) */
+.status-btn {
+  margin-top: 12px;
+  padding: 12px 30px;
+  font-size: 14px;
+  border-radius: 12px;
+  width: auto;          /* 👈 ไม่เต็มความกว้าง */
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(229,9,20,0.3);
+}
+.slip-preview {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slip-preview img {
+  width: 48px;        /* 👈 ขนาดเล็ก */
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* --- เพิ่ม CSS ปุ่มปิด Popup --- */
+.popup-box {
+  position: relative; /* สำคัญ: เพื่อให้ปุ่มปิดอ้างอิงตำแหน่งจากกล่องนี้ */
+}
+
+.popup-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 28px;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  line-height: 1;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.popup-close:hover {
+  color: #fff;
+  transform: rotate(90deg); /* ลูกเล่นหมุนตอนเอาเมาส์ชี้ */
+}
+
+/* --- 1. แถบติดตามด้านบนสุด (Top Bar) --- */
+.top-bar-x {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  border-bottom: 1px solid #333;
+  width: 100%; /* เต็มจอ */
+}
+
+.x-follow-btn {
+  background: #fff;
+  color: #000;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/* --- 2. แถบสถานะ (Status Bar) - จัดกลาง --- */
+.status-bar {
+  max-width: 420px;       /* ✅ กว้างเท่าฟอร์ม */
+  margin: 20px auto 0;    /* ✅ จัดกึ่งกลางหน้าจอ */
+  padding: 15px;
+  text-align: center;
+  border-radius: 15px;    /* มุมมน */
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.3s;
+  
+  /* เริ่มต้น: สีเทา (ล็อค) */
+  background: #2a2a2a;
+  color: #ff4444;
+  border: 1px solid #444;
+}
+
+/* ตอนปลดล็อค: สีแดง (พร้อมส่ง) */
+.status-bar.unlocked {
+  background: linear-gradient(135deg, hsl(152, 100%, 23%), #00ff22);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 15px rgba(2, 0, 0, 0.4);
+}
+
+/* --- สไตล์ปุ่มตอนล็อค (ใช้ Class แทน disabled) --- */
+.submit-btn.is-locked {
+  background: #444 !important;
+  color: #888 !important;
+  cursor: pointer; /* เปลี่ยนเมาส์เป็นรูปมือ ให้รู้ว่ากดได้นะ (แต่จะเด้งไปข้างบน) */
+  box-shadow: none;
+  transform: none !important;
+}
+
+/* เพิ่มลูกเล่น: ตอนเด้งขึ้นไป ให้ปุ่มติดตามสั่นๆ เรียกร้องความสนใจ */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake-attention {
+  animation: shake 0.5s ease-in-out;
+  border: 2px solid #e50914; /* เพิ่มขอบแดงให้เห็นชัดๆ ชั่วคราว */
+}
+
+/* --- ปุ่มติดตาม X (จะโผล่มาตอนไม่พบข้อมูล) --- */
+.follow-x-alert {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-x-follow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid #333;
+  transition: 0.3s;
+}
+
+.btn-x-follow:hover {
+  background: #222;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* --- CSS สำหรับปุ่มดูตัวอย่าง --- */
+.example-trigger {
+  font-size: 13px;
+  color: #ff7402;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.example-trigger:hover {
+  color: #e50914;
+  text-decoration: underline;
+}
+
+/* --- CSS สำหรับกล่องรูปที่จะเด้ง --- */
+#exampleContainer {
+  /* ตั้งค่าเริ่มต้นให้ซ่อนแบบเนียนๆ */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* เอฟเฟกต์เด้งสมูทๆ */
+  margin-bottom: 0;
+}
+
+/* คลาสที่จะเติมเข้าไปตอนกดปุ่มเพื่อให้แสดง */
+#exampleContainer.show {
+  max-height: 500px; /* ตั้งเผื่อไว้สูงๆ ให้พอดีกับรูป */
+  opacity: 1;
+  margin-bottom: 15px; /* ดันช่องข้างล่างลงไป */
+}
+
+.example-content img {
+  width: 100%;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 75, 43, 0.3); /* ขอบสีส้มจางๆ */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
   </style>
   
 </head>
 
 <body>
- <div id="successPopup" class="popup-overlay">
-  <div class="popup-box">
-    <div class="popup-icon">✅</div>
-    <h2>ส่งข้อมูลสำเร็จ</h2>
-    <p>ระบบได้รับข้อมูลแล้ว<br>แอดมินจะตรวจสอบให้เร็วที่สุด</p>
-    <p>หลังชำระเงิน กรุณารอ 30 นาทีเพื่อตรวจสอบการเข้ากลุ่มแอคล็อก <br>หากเกินเวลาที่กำหนด โปรดติดต่อแอดมิน</p> 
-    <a class="link" href="https://lin.ee/XXXX" target="_blank">
-      <i class="fa-brands fa-line"></i>
-      LINE ติดต่อปัญหา
-    </a>
-  </div>
-</div>
   <!-- Navbar -->
   <div id="navbar"></div>
+<div class="top-bar-x">
+  <span>📢 ติดตามข่าวสารใหม่ๆ ก่อนใคร @Thescene89</span>
+  <a href="https://x.com/YourAccount" target="_blank" 
+     class="x-follow-btn" 
+     id="followBtn" 
+     onclick="unlockSystem()"> <i class="fa-brands fa-x-twitter"></i> กดติดตาม
+  </a>
+</div>
+
+<div id="statusBar" class="status-bar">
+  <i class="fa-solid fa-lock"></i> ระบบล็อค: กรุณากดปุ่ม "ติดตาม" ด้านบนก่อน
+</div>
+<div id="successPopup" class="popup-overlay">
+  <div class="popup-box">
+    <div class="popup-close" onclick="closePopup()">&times;</div>
+    
+    <div class="popup-icon" style="font-size: 50px; margin-bottom: 10px;"><i class="fa-solid fa-check"></i></div>
+    
+    <h2>ส่งข้อมูลสำเร็จ!</h2>
+    <p>ระบบได้รับข้อมูลเรียบร้อยแล้ว<br>แอดมินจะรีบตรวจสอบให้เร็วที่สุดครับ</p>
+    
+    <div class="warning-box">
+       <p>
+         หลังชำระเงิน กรุณารอประมาณ <br>
+         <strong><i class="fa-solid fa-hourglass-half"></i> 30 นาที</strong><br>
+         <span style="font-size: 14px; opacity: 0.8; color: #fff;">เพื่อตรวจสอบการเข้ากลุ่มแอคล็อก</span>
+       </p>
+    </div>
+
+    <a class="link" href="https://lin.ee/XXXX" target="_blank" style="text-decoration: none; color: #ffffff; font-size: 16px; font-weight: bold;">
+      <i class="fa-brands fa-line"></i>
+      LINE ติดต่อปัญหา (หากเกินเวลา)
+    </a>
+    <button class="submit-btn status-btn"
+  onclick="location.href='status.html'">
+  เช็คสถานะ
+</button>
+  </div>
+</div>
+
+    
+
+
+</div>
+  
 
   <div class="pay-wrapper">
-    <h1>สมัครสมาชิก</h1>
+    <h1>สมัครสมาชิก</h1>    
 
-    <label>ชื่อผู้ใช้ X (Username)</label>
-    <input type="text" id="username" placeholder="ตัวอย่าง @THESCENE89 ">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; margin-bottom: 8px;">
+    <label style="margin: 0;">ชื่อผู้ใช้ X (Username)</label>
+    
+    <span class="example-trigger" onclick="toggleExampleAnimated()">
+       <i class="fa-regular fa-image"></i> ดูตัวอย่าง
+    </span>
+</div>
+
+<div id="exampleContainer">
+    <div class="example-content">
+        <img src="images/ex.png" alt="ตัวอย่างหน้าโปรไฟล์">
+        
+        <small style="color: #aaa; display: block; text-align: center; margin-top: 6px;">
+          <i class="fa-solid fa-circle-info"></i> แคปหน้าจอโปรไฟล์ที่เห็นชื่อชัดเจนแบบนี้
+        </small>
+    </div>
+</div>
+    <input type="text" id="username" placeholder="ตัวอย่าง @THESCENE89 (ใส่@เท่านั้น)">
 
     <label>LINE ID</label>
     <input type="text" id="contact" placeholder="สำหรับติดต่อกลับ(มีปัญหา)">
@@ -239,30 +619,46 @@
 
  
 
-
-    <div class="qr">
-      <p>สแกนเพื่อชำระเงิน</p>
-      <img src="images/qrcode.jpg" alt="QR Payment">
-    </div>
+<!-- แทนที่ส่วนนี้ -->
+<div class="qr">
+  <p>สแกนเพื่อชำระเงิน</p>
+  <img src="images/qrcode.jpg" alt="QR Payment">
+  <div class="bank-details">
+    <p>🏦 ธนาคารกสิกรไทย</p>
+    <p>👤 นาย สมชาย ใจดี</p>
+    <p>💳 เลขที่บัญชี 123-4-56789-0</p>
+  </div>
+</div>
 
     
 
-    <label>แนบสลิปการโอน</label>
+ <label>แนบสลิปการโอน</label>
 
 <label class="file-upload">
   <input type="file" id="slip" accept="image/*">
-  <span>📎 เลือกรูปสลิป</span>
+  <span id="uploadText">📎 เลือกรูปสลิป</span>
 </label>
+
+<!-- กล่องแสดงรูป -->
+<div id="slipPreview" class="slip-preview" style="display:none;">
+  <img id="previewImg">
+</div>
 
 <small id="fileName" style="opacity:.7; display:block; margin-top:6px;">
   ยังไม่ได้เลือกไฟล์
 </small>
 
 
-    <button class="submit-btn" onclick="sendToGoogleSheet()">
-      ส่งข้อมูลสมัคร
-    </button>
+<button id="realSubmitBtn" 
+        class="submit-btn is-locked" 
+        onclick="checkSubmit()">
+  <i class="fa-solid fa-lock"></i> ล็อค (ต้องกดติดตามก่อน)
+</button>
    
+
+
+
+    
 <p class="payment-note">
   หลังชำระเงิน กรุณารอประมาณ <span>30 นาที</span>  
   เพื่อตรวจสอบการเข้ากลุ่มแอคล็อก  
@@ -273,17 +669,25 @@
      class="contact">
      แอดมิน
   </a>
+
+<button class="submit-btn status-btn"
+  onclick="location.href='status.html'">
+  เช็คสถานะ
+</button>
+
+
+
+<p id="statusResult" style="text-align:center;margin-top:16px;"></p>
 </p>
 
 
   </div>
 
 
-
-
 <script>
 const WEBHOOK_URL = "https://discord.com/api/webhooks/1460362076278096029/mzXDMIvtuVYlKOVQzTZo3SN_tmFKCAQmji0ueWYB5Qf5vc9e3nX3oqALmDKfQsC2HRMN";
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbxHve374opCXIme1IvmxwEKeOz_HQ7int9OPTleylEYb-ZMAgIL-QQ-6KnWYi3uWVUKVA/exec";
+
 
 /* ===== ส่งข้อมูล ===== */
 function sendToGoogleSheet() {
@@ -292,14 +696,33 @@ function sendToGoogleSheet() {
   const plan = document.getElementById("plan").value;
   const slip = document.getElementById("slip").files[0];
 
-  if (!user || !contact || !plan || !slip) {
-    alert("กรุณากรอกข้อมูลและแนบสลิปให้ครบ");
-    return;
-  }
+// แก้ไขใน function sendToGoogleSheet()
+if (!user || !contact || !plan || !slip) {
+  showErrorPopup("กรุณากรอกข้อมูลและแนบสลิปให้ครบ");
+  return;
+}
 
   const id = Date.now().toString();
 
-/* ===== 1. ส่ง Google Sheet (FormData) ===== */
+function showErrorPopup(message) {
+  const popup = document.createElement('div');
+  popup.className = 'error-popup';
+  popup.innerHTML = `
+    <div class="error-box">
+      <div class="error-icon">⚠️</div>
+      <p>${message}</p>
+    </div>
+  `;
+  document.body.appendChild(popup);
+  
+  setTimeout(() => {
+    popup.style.opacity = '0';
+    setTimeout(() => popup.remove(), 300);
+  }, 4500);
+}
+
+
+ /* ===== 1. ส่ง Google Sheet (FormData) ===== */
 const formData = new FormData();
 formData.append("id", id);
 formData.append("username", user);
@@ -334,15 +757,39 @@ fetch(SHEET_URL, {
 
 
 
-/* ===== แสดงชื่อไฟล์ ===== */
+/* ===== แสดงชื่อไฟล์ รูป===== */
 document.getElementById("slip").addEventListener("change", function () {
-  document.getElementById("fileName").innerText =
-    this.files[0]?.name || "ยังไม่ได้เลือกไฟล์";
+  const file = this.files[0];
+  const fileName = document.getElementById("fileName");
+  const previewBox = document.getElementById("slipPreview");
+  const previewImg = document.getElementById("previewImg");
+  const uploadText = document.getElementById("uploadText");
+
+  if (!file) {
+    fileName.innerText = "ยังไม่ได้เลือกไฟล์";
+    previewBox.style.display = "none";
+    uploadText.innerText = "📎 เลือกรูปสลิป";
+    return;
+  }
+
+  fileName.innerText = file.name;
+  uploadText.innerHTML = '<i class="fa-solid fa-check-to-slot"></i> เลือกรูปแล้ว';
+
+
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    previewImg.src = e.target.result;
+    previewBox.style.display = "block";
+  };
+  reader.readAsDataURL(file);
 });
-</script>
 
 
-<script>
+
+
+
+
 /* ===== เลือกแพ็กเกจ ===== */
 document.querySelectorAll(".plan-card").forEach(card => {
   card.addEventListener("click", () => {
@@ -357,7 +804,83 @@ document.querySelectorAll(".plan-card").forEach(card => {
     document.getElementById("plan").value = card.dataset.plan;
   });
 });
+
+/* ===== ฟังก์ชันปิด Popup ===== */
+function closePopup() {
+  const popup = document.getElementById("successPopup");
+  popup.style.opacity = '0'; // เพิ่มลูกเล่นค่อยๆ จางหาย
+  setTimeout(() => {
+    popup.style.display = "none";
+    popup.style.opacity = '1'; // รีเซ็ตค่าเดิมเผื่อใช้ใหม่
+    
+    // ถ้าต้องการให้รีโหลดหน้าเว็บหลังจากกดปิด ให้เอา comment บรรทัดล่างออก
+    // location.reload(); 
+  }, 300);
+}
+
+// (Optional) สั่งให้กดพื้นที่ว่างๆ รอบนอกแล้วปิดได้ด้วย
+document.getElementById("successPopup").addEventListener("click", function(e) {
+  if (e.target === this) {
+    closePopup();
+  }
+});
+
+
+/* ===== 1. ฟังก์ชันเช็คปุ่มกด (ตัวใหม่) ===== */
+function checkSubmit() {
+  const btn = document.getElementById("realSubmitBtn");
+  
+  // ถ้าปุ่มยังมีคลาสล็อคอยู่
+  if (btn.classList.contains("is-locked")) {
+    
+    // 1. เลื่อนหน้าจอขึ้นไปหาปุ่ม Follow ด้านบน
+    const followSection = document.getElementById("followBtn"); // หรือ top-bar-x
+    followSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // 2. ใส่เอฟเฟกต์สั่นๆ ให้ปุ่ม Follow เด่นขึ้นมา
+    followSection.classList.add("shake-attention");
+    
+    // (Optional) เอาเอฟเฟกต์ออกหลังสั่นเสร็จ (1 วินาที)
+    setTimeout(() => {
+      followSection.classList.remove("shake-attention");
+    }, 1000);
+
+  } else {
+    // ถ้าปลดล็อคแล้ว ให้ทำงานส่งข้อมูลตามปกติ
+    sendToGoogleSheet();
+  }
+}
+
+/* ===== 2. ฟังก์ชันปลดล็อค (แก้จากตัวเดิมนิดหน่อย) ===== */
+function unlockSystem() {
+  // เปลี่ยนปุ่มติดตามเป็นสีเขียว
+  const followBtn = document.getElementById("followBtn");
+  followBtn.innerHTML = '<i class="fa-solid fa-check"></i> ติดตามแล้ว';
+  followBtn.style.background = "#00c300";
+  followBtn.style.color = "#fff";
+
+  // เปลี่ยนแถบสถานะเป็นสีเขียว
+  const statusBar = document.getElementById("statusBar");
+  statusBar.classList.add("unlocked"); 
+  statusBar.innerHTML = '<i class="fa-solid fa-circle-check"></i> สามารถกรอกข้อมูลได้เลย';
+
+  // ✅ ปลดล็อคปุ่มส่ง (โดยการเอาคลาส is-locked ออก)
+  const submitBtn = document.getElementById("realSubmitBtn");
+  submitBtn.classList.remove("is-locked"); // เอาสถานะล็อคออก
+  submitBtn.innerHTML = 'ส่งข้อมูลสมัคร';
+}
+
+
+/* ฟังก์ชันเปิด/ปิด รูปตัวอย่างแบบมี Animation */
+function toggleExampleAnimated() {
+  const container = document.getElementById("exampleContainer");
+  // สลับ class "show" ถ้ามีก็เอาออก ถ้าไม่มีก็ใส่เข้าไป
+  container.classList.toggle("show");
+}
+
+
 </script>
+
 
 
   
@@ -365,8 +888,3 @@ document.querySelectorAll(".plan-card").forEach(card => {
   <script src="js/navbar.js"></script>
 </body>
 </html>
-
-
-
-
-
